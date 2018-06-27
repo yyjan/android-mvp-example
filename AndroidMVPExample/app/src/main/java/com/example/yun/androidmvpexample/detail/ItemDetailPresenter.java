@@ -1,6 +1,9 @@
 package com.example.yun.androidmvpexample.detail;
 
 import com.example.yun.androidmvpexample.data.Document;
+import com.example.yun.androidmvpexample.data.utils.DocumentDataUtils;
+
+import java.util.List;
 
 public class ItemDetailPresenter implements ItemDetailContract.Presenter {
 
@@ -17,7 +20,10 @@ public class ItemDetailPresenter implements ItemDetailContract.Presenter {
     }
 
     @Override
-    public void loadItems(Document document) {
-        view.showTitle(document.getTitle());
+    public void loadCurrentItem(List<Document> items, int id) {
+        int position = DocumentDataUtils.getDocumentPosition(items, id);
+        Document item = items.get(position);
+        view.showTitle(item.getTitle());
+        view.showDescription(position);
     }
 }

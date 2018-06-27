@@ -80,7 +80,8 @@ public class MainListActivity extends AppCompatActivity implements MainListContr
     @Override
     public void showItemDetail(Document document) {
         Intent intent = new Intent(this, ItemDetailActivity.class);
-        intent.putExtra(ItemDetailActivity.EXTRA_DOCUMENT, document);
+        intent.putExtra(ItemDetailActivity.EXTRA_DOCUMENT_LIST, adapter.getItems());
+        intent.putExtra(ItemDetailActivity.EXTRA_DOCUMENT_ID, document.getId());
         startActivity(intent);
     }
 

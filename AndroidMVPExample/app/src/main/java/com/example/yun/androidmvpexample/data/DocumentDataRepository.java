@@ -1,6 +1,7 @@
 package com.example.yun.androidmvpexample.data;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class DocumentDataRepository {
     private DocumentDataRepository() {
@@ -21,7 +22,7 @@ public class DocumentDataRepository {
 
         for (int i = 0; i < size; i++) {
             String title = String.format("Item %d", i + 1);
-            items.add(new Document(title));
+            items.add(new Document(new Random().nextInt(), title));
         }
 
         return items;
@@ -29,6 +30,6 @@ public class DocumentDataRepository {
 
     public Document newItem(int size) {
         String title = String.format("Item %d", size + 1);
-        return new Document(title);
+        return new Document(new Random().nextInt(), title);
     }
 }

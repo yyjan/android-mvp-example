@@ -22,7 +22,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ItemHo
         implements AdapterContract.View, AdapterContract.Model {
 
     private Context context;
-    private List<Document> items = new ArrayList<>();
+    private ArrayList<Document> items = new ArrayList<>();
     private MainListActivity.ItemListener itemListener;
 
     public MainListAdapter(Context context, MainListActivity.ItemListener itemListener) {
@@ -54,6 +54,10 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ItemHo
     @Override
     public void addItem(Document item) {
         this.items.add(item);
+    }
+
+    public ArrayList<Document> getItems() {
+        return items;
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder {

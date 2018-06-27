@@ -2,10 +2,14 @@ package com.example.yun.androidmvpexample.detail;
 
 import com.example.yun.androidmvpexample.data.Document;
 
+import java.util.List;
+
 public interface ItemDetailContract {
 
     interface View {
         void showTitle(String title);
+
+        void showDescription(int position);
     }
 
     interface Presenter {
@@ -13,6 +17,6 @@ public interface ItemDetailContract {
 
         void onDetach();
 
-        void loadItems(Document document);
+        void loadCurrentItem(List<Document> items, int id);
     }
 }
