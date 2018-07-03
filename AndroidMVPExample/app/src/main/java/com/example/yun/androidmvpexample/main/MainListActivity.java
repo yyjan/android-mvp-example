@@ -3,16 +3,13 @@ package com.example.yun.androidmvpexample.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 import com.example.yun.androidmvpexample.R;
-import com.example.yun.androidmvpexample.data.Document;
-import com.example.yun.androidmvpexample.data.DocumentDataRepository;
+import com.example.yun.androidmvpexample.data.source.DocumentDataRepository;
 import com.example.yun.androidmvpexample.detail.ItemDetailActivity;
 import com.example.yun.androidmvpexample.main.adapter.MainListAdapter;
 
@@ -68,20 +65,15 @@ public class MainListActivity extends AppCompatActivity implements MainListContr
     }
 
     @Override
-    public void showToast(String title) {
-        Toast.makeText(this, String.format(getText(R.string.item_click).toString(), title), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void showMessage(int itemCount) {
-        Snackbar.make(fab, String.format(getText(R.string.item_add).toString(), itemCount), Snackbar.LENGTH_LONG).show();
+        //Snackbar.make(fab, String.format(getText(R.string.item_add).toString(), itemCount), Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void showItemDetail(Document document) {
+    public void showItemDetail(int position) {
         Intent intent = new Intent(this, ItemDetailActivity.class);
         intent.putExtra(ItemDetailActivity.EXTRA_DOCUMENT_LIST, adapter.getItems());
-        intent.putExtra(ItemDetailActivity.EXTRA_DOCUMENT_ID, document.getId());
+        intent.putExtra(ItemDetailActivity.EXTRA_DOCUMENT_POSITION, position);
         startActivity(intent);
     }
 
@@ -93,13 +85,13 @@ public class MainListActivity extends AppCompatActivity implements MainListContr
     ItemListener itemListener = new ItemListener() {
 
         @Override
-        public void onItemClick(Document document) {
-            presenter.onItemClick(document);
+        public void onItemClick(int position) {
+            presenter.onItemClick(position);
         }
     };
 
     public interface ItemListener {
-        void onItemClick(Document document);
+        void onItemClick(int position);
     }
 
 }

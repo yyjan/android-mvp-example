@@ -3,18 +3,24 @@ package com.example.yun.androidmvpexample.data;
 import java.io.Serializable;
 
 public class Document implements Serializable {
-    private int id;
     private String title;
-
-    public Document(int id, String title) {
-        this.id = id;
-        this.title = title;
-    }
+    private String contents;
+    private String url;
+    private String thumbnail;
 
     public String getTitle() {
         return title;
     }
-    public int getId() {
-        return id;
+
+    public String getContents() {
+        return contents;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

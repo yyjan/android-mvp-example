@@ -8,10 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.yun.androidmvpexample.R;
 import com.example.yun.androidmvpexample.data.Document;
 
@@ -24,7 +28,7 @@ import butterknife.ButterKnife;
 public class ItemDetailActivity extends AppCompatActivity implements ItemDetailContract.View {
 
     public static final String EXTRA_DOCUMENT_LIST = "DOCUMENT_LIST";
-    public static final String EXTRA_DOCUMENT_ID = "DOCUMENT_ID";
+    public static final String EXTRA_DOCUMENT_POSITION = "DOCUMENT_POSITION";
 
     @BindView(R.id.viewpager)
     ViewPager viewpager;
@@ -32,7 +36,7 @@ public class ItemDetailActivity extends AppCompatActivity implements ItemDetailC
     private ItemDetailContract.Presenter presenter;
 
     private List<Document> items = new ArrayList<>();
-    private int documentId;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,7 @@ public class ItemDetailActivity extends AppCompatActivity implements ItemDetailC
         setSupportActionBar(toolbar);
 
         items = (List<Document>) getIntent().getSerializableExtra(EXTRA_DOCUMENT_LIST);
-        documentId = getIntent().getIntExtra(EXTRA_DOCUMENT_ID, 0);
+        position = getIntent().getIntExtra(EXTRA_DOCUMENT_POSITION, 0);
 
         viewpager.setAdapter(new ViewPagerAdapter());
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -67,7 +71,7 @@ public class ItemDetailActivity extends AppCompatActivity implements ItemDetailC
 
         presenter = new ItemDetailPresenter();
         presenter.onAttach(this);
-        presenter.loadCurrentItem(items, documentId);
+        presenter.loadCurrentItem(items, position);
     }
 
     @Override
@@ -91,6 +95,7 @@ public class ItemDetailActivity extends AppCompatActivity implements ItemDetailC
     }
 
     public class ViewPagerAdapter extends PagerAdapter {
+
         @Override
         public int getCount() {
             return items.size();
@@ -104,11 +109,21 @@ public class ItemDetailActivity extends AppCompatActivity implements ItemDetailC
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            TextView textView = new TextView(container.getContext());
-            textView.setText(items.get(position).getTitle().toString());
-            textView.setGravity(Gravity.CENTER);
-            container.addView(textView);
-            return textView;
+            View view = LayoutInflater.from(container.getContext()).inflate(R.layout.view_content_detail, null);
+
+            Document item = items.get(position);
+            TextView tvContents = view.findViewById(R.id.tv_contents);
+            ImageView ivThumb = view.findViewById(R.id.iv_thumb);
+
+            if (!TextUtils.isEmpty(item.getContents())) {
+                tvContents.setText(item.getContents());
+            }
+            if (!TextUtils.isEmpty(item.getThumbnail())) {
+                Glide.with(container.getContext()).load(item.getThumbnail()).into(ivThumb);
+            }
+            container.addView(view);
+
+            return view;
         }
 
         @Override

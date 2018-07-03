@@ -1,8 +1,9 @@
 package com.example.yun.androidmvpexample.main;
 
+import com.example.yun.androidmvpexample.data.source.GetDataCallback;
 import com.example.yun.androidmvpexample.main.adapter.AdapterContract;
 import com.example.yun.androidmvpexample.data.Document;
-import com.example.yun.androidmvpexample.data.DocumentDataRepository;
+import com.example.yun.androidmvpexample.data.source.DocumentDataRepository;
 
 import java.util.List;
 
@@ -16,14 +17,19 @@ public class MainListPresenter implements MainListContract.Presenter {
 
     @Override
     public void loadItems() {
-        List<Document> items = sampleData.getItems(30);
-        adapterModel.loadItems(items);
-        adapterView.notifyDataSetChanged();
+        sampleData.getDocuments(new GetDataCallback() {
+            @Override
+            public void onDocumentsLoaded(List<Document> documents) {
+                adapterModel.loadItems(documents);
+                adapterView.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
     public void addNewItem(int itemCount) {
-        adapterModel.addItem(sampleData.newItem(itemCount));
+        //TODO : add item
+        //adapterModel.addItem(sampleData.newItem(itemCount));
         adapterView.notifyDataSetChanged();
 
         view.showMessage(itemCount + 1);
@@ -32,10 +38,8 @@ public class MainListPresenter implements MainListContract.Presenter {
 
     @Override
 
-    public void onItemClick(Document document) {
-        String title = document.getTitle();
-        view.showToast(title);
-        view.showItemDetail(document);
+    public void onItemClick(int position) {
+        view.showItemDetail(position);
     }
 
     @Override

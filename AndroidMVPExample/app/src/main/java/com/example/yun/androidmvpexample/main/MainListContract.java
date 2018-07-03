@@ -1,17 +1,14 @@
 package com.example.yun.androidmvpexample.main;
 
 import com.example.yun.androidmvpexample.main.adapter.AdapterContract;
-import com.example.yun.androidmvpexample.data.Document;
-import com.example.yun.androidmvpexample.data.DocumentDataRepository;
+import com.example.yun.androidmvpexample.data.source.DocumentDataRepository;
 
 public interface MainListContract {
 
     interface View {
-        void showToast(String title);
-
         void showMessage(int itemCount);
 
-        void showItemDetail(Document document);
+        void showItemDetail(int position);
 
         void scrollToBottom();
     }
@@ -25,7 +22,7 @@ public interface MainListContract {
 
         void onDetach();
 
-        void onItemClick(Document document);
+        void onItemClick(int position);
 
         void setAdapterModel(AdapterContract.Model adapterModel);
 
